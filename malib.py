@@ -220,5 +220,3 @@ def Hanoi(n,d,i,f):
         print('deplacer le disque du plot',d, 'vers le plot',f)
         
         Hanoi(n-1,i,d,f)
-
-print(Hanoi(3,0,1,2))
