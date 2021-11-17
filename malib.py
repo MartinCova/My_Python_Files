@@ -220,3 +220,40 @@ def Hanoi(n,d,i,f):
         print('deplacer le disque du plot',d, 'vers le plot',f)
         
         Hanoi(n-1,i,d,f)
+
+
+def IsNumber(text):
+    """IsNumber vérifie si l'entrée est un nombre
+    
+    Args:
+        text (str): texte de l'input
+    
+    
+    Returns:
+        int: nombre 
+    
+    """
+    number = '0123456789'
+    entry = input(text)
+    verif = True
+    for i in entry:
+        if not(i in number):
+            verif = False
+            
+    if verif == False:
+        IsNumber("Pas un nombre. " +text)
+    else:
+        return int(entry)
+    
+def IsText(text):
+    number = '0123456789'
+    entry = input(text)
+    verif = True
+    for i in entry:
+        if i in number:
+            verif = False
+            
+    if verif == False:
+        IsNumber("pas un texte. " +text)
+    else:
+        return entry
