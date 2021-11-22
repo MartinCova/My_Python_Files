@@ -257,3 +257,4 @@ def IsText(text):
         IsNumber("pas un texte. " +text)
     else:
         return entry
+    

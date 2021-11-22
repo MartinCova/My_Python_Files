@@ -1,7 +1,9 @@
 
 import random
 import sys
+from tkinter.constants import INSERT
 import malib 
+import tkinter as tk
 
 # created by Martin Cova on 12. nov. 2021
 # object: créer un pendu sans interface gaphique
@@ -55,14 +57,14 @@ def VerifyLetter(Mot, MotHidden):
             
     return MotHidden , LetterExist , Letter          
 
-def AffichagePendu(bool):
-    potteaux = str('----------------\n|               |\n|               |\n|               \n|               \n|               \n|               \n|               \n|'
-        '\n|               \n|               \n|               \n|               \n|---------------')
+# def AffichagePendu(bool):
+#     potteaux = str('----------------\n|               |\n|               |\n|               \n|               \n|               \n|               \n|               \n|'
+#         '\n|               \n|               \n|               \n|               \n|---------------')
     
-    tete = '() \n ()'
+
     
-    print(potteaux, end = "")
-    print(tete)
+#     print(potteaux, end = "")
+#     print(tete)
 
 
 
@@ -106,7 +108,16 @@ def Pendu(lstMots,nbChances):
         
 
 
+# ----------------------fenêtre graphique ----------------------
+
+win= tk.Tk()
+win.geometry("750x250")
+entry= tk.Canvas(win, width= 750,background="blue")
+entry.pack()
+win.mainloop()
+
+
+
+
+
 # PenduGame = Pendu(mots, 20)
-
-
-AffichagePendu(True)
