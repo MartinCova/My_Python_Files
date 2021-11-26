@@ -13,3 +13,41 @@ dort : 3
 julie : 4 
 jean : 4 
 . : 5
+merci : 2
+bonjour : 2
+gros:1
+grand:1
+violet:1
+les:0
+avoir:3
+etre:3
+savoir:3
+connaitre:3
+parler:3
+rire:3
+pelle:2
+truelle:2
+ours:2
+manche:2
+ciseau:2
+ciseaux:2
+fouchette:2
+cuillère:2
+courteaux:2
+arbre:2
+chantier:2
+engin:2
+très:1
+gras:1
+fin:1
+mince:1
+subtil:1
+étroit:1
+mignon:1
+gentil:1
+méchant:1
+violent:1
+droit:1
+juste:1
+injuste:1
+rigoureux:1

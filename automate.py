@@ -2,18 +2,25 @@ import os
 import sys
 
 def ReadDico(file):
-    f  = open("dico.txt", "r")
+    """ReadDico lis un dico
+    
+    Args:
+        file (file): fichier à lire
+    
+    
+    Returns:
+        dic: dico des mots qu'on peut utiliser
+    
+    """
+    f  = open(file, "r")
     dico = {}
     for x in f :
-        print(x)
+        y = x.replace(" ","").replace("\n","")
+        z = y.split(":")
+        dico[z[0]]=int(z[1])
+    f.close()    
+    return dico
     
-
-
-dico ={"le" : 0, "la" : 0, "chat" : 2, "souris" : 2, "martin" : 4,
-                "mange" : 3, "petite" : 1, "joli" : 1, "grosse" : 1,
-                "bleu" : 1, "verte" : 1, "dort" : 3,"julie" : 4, "jean" : 4, "." : 5}
-
-
 transition = ( (1,8,8,8,4,8),
                (8,1,2,8,8,8),
                (8,2,8,3,8,8),
@@ -32,8 +39,13 @@ def Automate(phrase):
         phrase (str): phrase à traiter
         
     """
+    dico = ReadDico("dico.txt")
     if '.' in phrase :
         phrase  = phrase[:-1] +' '+phrase[-1] 
+
+    if '  .' in phrase:
+        phrase  = phrase[:-2] +phrase[-1]
+        
     place = 0
 
     if len(phrase) == 0:
@@ -43,19 +55,22 @@ def Automate(phrase):
     for i in phrase.split(" "):
         if not(i.lower() in dico.keys()):
             print("trouve d'autres mots, pas dans mon dico")
-            exit(0)
+            return phrase
         mot_suiv  = dico.get(i.lower())
         place = transition[place][mot_suiv]
         if place == 8:
             print("phrase incorrect")
-            exit(0)
+            # exit(0)
+            return phrase
         elif place == 9:
             print("phrase correcte")
-            sys.exit()
+            # sys.exit()
+            return phrase
     print('phrase incorrecte.')
+    return phrase
     
-# phrase = input("entrez votre phrase: ")    
+# phrase =  
 
-# a = Automate('Jean mange martin.')
+a = Automate(input("entrez votre phrase: "))
 
-b = ReadDico("dico.txt")
+print(a)
