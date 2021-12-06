@@ -7,13 +7,13 @@ import tkinter as tk
 from library import malib
 import PIL
 
+score = 0
 
-sys.path()
 
 # created by Martin Cova on 12. nov. 2021
 # objectif: créer un pendu sans interface gaphique
 
-mots = ['bonjour','merci', 'adieu', 'patate']
+mots = ['bonjour','merci', 'adieu', 'patate', 'tout']
 
 
 def ChooseWord(lstMots):
@@ -30,13 +30,16 @@ def ChooseWord(lstMots):
     Word  = random.choice(lstMots)
     WordHidden = ''
     for i in Word:
-        WordHidden += '_'
+        if i != Word[0]:
+            WordHidden += '_'
+        else:
+            WordHidden += i
     print(Word)
-    # print(WordHidden)
+    print(WordHidden)
     return Word , WordHidden
 
 
-def VerifyLetter(Mot, MotHidden):
+def VerifyLetter(Mot, MotHidden, letterused):
     """VerifyLetter vérifie si la lettre est dans le mot
     
     Args:
@@ -48,11 +51,20 @@ def VerifyLetter(Mot, MotHidden):
         tuple: retourne le mot cahé(en partie découvert au sinon), un booléen si la lettre est dans le mot et de quelle lettre il s'agit
     
     """
-    Letter = malib.IsText("Quelle lettre choisissez vous?: ")
-    while len(Letter) > 1:
-        malib.IsText("Quelle lettre choisissez vous?: ")
+    """vérification de la lettre entrée"""
+    Letter = malib.IsText(input("Quelle lettre choisissez vous?: "))
     LetterExist = False
+
+    while Letter in letterused:
+        print("Lettre déjà utilisée, veuillez réesayer: ") 
+        Letter = malib.IsText(input("Quelle lettre choisissez vous?: "))
+
+    while len(Letter) > 1 :
+        Letter = malib.IsText(input("Quelle lettre choisissez vous?: "))
+   
     
+ 
+
     if Letter in Mot:
         LetterExist = True
         
@@ -61,18 +73,6 @@ def VerifyLetter(Mot, MotHidden):
             MotHidden = MotHidden[:i] + Letter +MotHidden[i+1:]
             
     return MotHidden , LetterExist , Letter          
-
-# def AffichagePendu(bool):
-#     potteaux = str('----------------\n|               |\n|               |\n|               \n|               \n|               \n|               \n|               \n|'
-#         '\n|               \n|               \n|               \n|               \n|---------------')
-    
-
-    
-#     print(potteaux, end = "")
-#     print(tete)
-
-
-
 
 
 
@@ -84,33 +84,53 @@ def Pendu(lstMots,nbChances):
         nbChances (int): nb de chances possible pour gagner
     
     """
-    LetterUsed = []
+
     word = ChooseWord(lstMots)
     MotHidden = word[1]
+    LetterUsed = []
+    
+    print("là... MotHidden : ", MotHidden)
+
     for i in range(nbChances):
         print(LetterUsed)
-        essay = VerifyLetter(word[0], MotHidden)
+        essay = VerifyLetter(word[0], MotHidden, LetterUsed)
         MotHidden = essay[0]
         print(MotHidden)
         LetterUsed.append(essay[2])
         if MotHidden == word[0]:
-            replay = malib.IsNumber('bravo vous avez gagné! Voulez-vous rejouer? 1:oui       2:non   :')
+            replay = malib.IsNumber(input('bravo vous avez gagné! Voulez-vous rejouer? 1:oui       2:non   :'))
+            
             while replay != 1 and replay !=2:
-                replay = malib.IsNumber('bravo vous avez gagné! Voulez-vous rejouer? 1:oui       2:non   :')
+                replay = malib.IsNumber(input('bravo vous avez gagné! Voulez-vous rejouer? 1:oui       2:non   :'))
               
             if replay == 2:
-                sys.exit()
+                break
             else:
-                Pendu(lstMots, malib.IsNumber("combien d'essais voulez-vous ?: "))
-                
-        
+                Pendu(lstMots, 8)
+            
         else:
             if essay[1] == True:
                 print('Vrai, nombre de chances restantes: '+str(nbChances))
             else:
                 nbChances -=1
                 print('Faux, nombre de chances restantes: '+str(nbChances))
+
+    return nbChances
+
+
+
+
         
+
+    
+
+
+
+        
+#PenduGame = Pendu(mots, 8)
+#if PenduGame > score:
+    score = PenduGame
+#print('meilleur score = ', score)
 
 
 # ----------------------fenêtre graphique ----------------------
@@ -165,4 +185,3 @@ root.mainloop()
 
 
 
-# PenduGame = Pendu(mots, 20)
