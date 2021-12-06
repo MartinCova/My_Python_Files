@@ -1,9 +1,11 @@
-import sys
-from pprint import pprint
 
-import mon_module
+a  = 'bonjourb'
+mothidden = ""
+for i in a:
+    if i != a[0]:
+        mothidden += "_"
+    else:
+        mothidden += i
 
-print(mon_module.a)
 
-pprint(sys.path)
 

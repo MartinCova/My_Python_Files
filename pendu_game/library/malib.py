@@ -234,16 +234,15 @@ def IsNumber(text):
     
     """
     number = '0123456789'
-    entry = input(text)
     verif = True
-    for i in entry:
+    for i in text:
         if not(i in number):
             verif = False
             
     if verif == False:
         print("Pas un nombre. " +text)
     else:
-        return int(entry)
+        return int(text)
     
     
 
