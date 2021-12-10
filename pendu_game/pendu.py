@@ -3,7 +3,6 @@ import random
 import sys
 import tkinter as tk
 from library import malib
-import PIL
 # import malib
 
 score = 0
@@ -144,32 +143,32 @@ def Begin_game():
 from tkinter import Label, PhotoImage, Variable, font as tkFont
 root= tk.Tk()
 
-# screenX = root.winfo_screenwidth()
-# screenY = root.winfo_screenheight()
+screenX = root.winfo_screenwidth()
+screenY = root.winfo_screenheight()
 
 helv25 = tkFont.Font(family='Helvetica', size=25, weight='bold')
 
-# root.geometry("800x600")
-# root.title("Pendu")
+root.geometry("800x600")
+root.title("Pendu")
 
 # # -----------------création du menu principal d'entrée---------------------
 
-# FrameMenuEntry = tk.Frame(root, width = screenX, height = screenY, bg = "#C8D6E5")
-# FrameMenuEntry.place(x=0,y=0)
+FrameMenuEntry = tk.Frame(root, width = screenX, height = screenY, bg = "#C8D6E5")
+FrameMenuEntry.place(x=0,y=0)
 
-#ImagePendu = tk.Canvas(FrameMenuEntry,bg='#C8D6E5', width= screenX, height= screenY/2)
-#ImagePendu.place(x=0, y=0)
+ImagePendu = tk.Canvas(FrameMenuEntry,bg='#C8D6E5', width= screenX, height= screenY/2)
+ImagePendu.place(x=0, y=0)
 
 
 
-#bg = tk.PhotoImage(file='pendu_game/images/Lion-PNG-image-1.png')
-#ImagePendu.create_image(0,0, image = bg)
+# bg = tk.PhotoImage(file='pendu_game/images/Lion-PNG-image-1.png')
+# ImagePendu.create_image(0,0, image = bg)
 
-# play = tk.Button(root, text='Jouer', bg='#54A0FF', fg='white',  font= helv25, command= lambda: Begin_game())
-# play.place(relx=0.2 ,rely=0.7, relwidth=0.2)
+play = tk.Button(root, text='Jouer', bg='#54A0FF', fg='white',  font= helv25, command= lambda: Begin_game())
+play.place(relx=0.2 ,rely=0.7, relwidth=0.2)
 
-# quit = tk.Button(root, text='Quitter', bg='#54A0FF', fg='white', font= helv25, command= lambda: root.destroy())
-# quit.place(relx=0.6 , rely=0.7, relwidth=0.2)
+quit = tk.Button(root, text='Quitter', bg='#54A0FF', fg='white', font= helv25, command= lambda: root.destroy())
+quit.place(relx=0.6 , rely=0.7, relwidth=0.2)
 
 #-----------------création de l'interface du jeu -----------------
 entry  = tk.StringVar()
@@ -182,14 +181,14 @@ Word.place(relwidth = 0.5)
 
 
 
-# Frame1= tk.Canvas(root, width= screenX, height = 400, background="white")
-# Frame2 = tk.Frame(root, width = screenX, height = 300, bg = "red")
+Frame1= tk.Canvas(root, width= screenX, height = 400, background="white")
+Frame2 = tk.Frame(root, width = screenX, height = 300, bg = "red")
 
-# Frame2.place()
+Frame2.place()
 
 
 
-# root.mainloop()
+root.mainloop()
 
 
 
