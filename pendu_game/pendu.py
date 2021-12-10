@@ -136,7 +136,7 @@ def Begin_game():
     FrameMenuEntry.place_forget()
     play.place_forget()
     quit.place_forget()
-    Pendu(mots, 8)
+    # Pendu(mots, 8)
     InputZone.place(relwidth=0.4, relx= 0.1, rely = 0.5)
 
 
