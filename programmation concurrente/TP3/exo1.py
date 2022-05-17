@@ -1,5 +1,5 @@
 import os, sys # Communication par tube anonyme os.pipe()
-
+#bonjour
 msg = 'jesuistonpere'
 msg = msg.encode()
 (dfr,dfw) = os.pipe()
@@ -17,4 +17,4 @@ else : #Processus fils
     print("Le processus %d:%d octets, message recu est %s\n" %(os.getpid(), n, msgReception))
     os.close(dfr)
 sys.exit(0)
-
+#bonjour

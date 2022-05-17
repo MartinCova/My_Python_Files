@@ -37,7 +37,7 @@ def trifichier(path):
             os.close(dfr)
             os.close(dfr2)
             os.close(dfw2)
-            os.execlp("grep", "grep", "os")
+            os.execlp("grep", "grep", "bonjour")
         else:
             os.close(dfw2)
             os.dup2(dfr2, 0)
