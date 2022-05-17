@@ -3,7 +3,7 @@
 import os
 import OpenGL.GL as GL
 import glfw
-import numpy as np
+import random
 
 def init_window():
     # initialisation de la librairie glfw
@@ -38,11 +38,20 @@ def init_data():
 
 def run(window):
     # boucle d'affichage
+    last_time = glfw.get_time()
+    counter = 0
     while not glfw.window_should_close(window):
         # nettoyage de la fenêtre : fond et profondeur
         GL.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
-
         #  l'affichage se fera ici
+        time = glfw.get_time()
+        if time - last_time >1:
+            print(counter)
+            last_time = time
+            GL.glClearColor(random.random(), random.random(), random.random(), 1.0)
+            counter = 0
+        else:
+            counter += 1
 
         # changement de buffer d'affichage pour éviter un effet de scintillement
         glfw.swap_buffers(window)
