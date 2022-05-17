@@ -4,6 +4,7 @@ import os
 import OpenGL.GL as GL
 import glfw
 import random
+import numpy as np
 
 def init_window():
     # initialisation de la librairie glfw
@@ -27,7 +28,7 @@ def init_context(window):
     # activation de la gestion de la profondeur
     GL.glEnable(GL.GL_DEPTH_TEST)
     # choix de la couleur de fond
-    GL.glClearColor(0.5, 0.9, 0.6, 1.0)
+    GL.glClearColor(0.5, 0.6, 0.9, 1.0)
     print(f"OpenGL: {GL.glGetString(GL.GL_VERSION).decode('ascii')}")
 
 def init_program():
@@ -36,6 +37,24 @@ def init_program():
     pass
         
 def init_data():
+    sommets = np.array(((0, 0, 0), (1, 0, 0), (0, 1, 0)), np.float32)
+    # attribution d'une liste d'e ́tat (1 indique la cre ́ation d'une seule liste)
+    vao = GL.glGenVertexArrays(1)
+    # affectation de la liste d'e ́tat courante
+    GL.glBindVertexArray(vao)
+    # attribution d’un buffer de donnees (1 indique la cre ́ation d’un seul buffer)
+    vbo = GL.glGenBuffers(1)
+    # affectation du buffer courant
+    GL.glBindBuffer(GL.GL_ARRAY_BUFFER, vbo)
+
+    # copie des donnees des sommets sur la carte graphique
+    GL.glBufferData(GL.GL_ARRAY_BUFFER, sommets, GL.GL_STATIC_DRAW)
+    # Les deux commandes suivantes sont stocke ́es dans l'e ́tat du vao courant # Active l'utilisation des donne ́es de positions
+    # (le 0 correspond a` la location dans le vertex shader)
+    GL.glEnableVertexAttribArray(0)
+    # Indique comment le buffer courant (dernier vbo "binde ́")
+    # est utilise ́ pour les positions des sommets
+    GL.glVertexAttribPointer(0, 3, GL.GL_FLOAT, GL.GL_FALSE, 0, None)
     pass
 
 def run(window):
@@ -46,15 +65,14 @@ def run(window):
         # nettoyage de la fenêtre : fond et profondeur
         GL.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
         #  l'affichage se fera ici
-        time = glfw.get_time()
-        if time - last_time >1:
-            print(counter)
-            last_time = time
-            GL.glClearColor(random.random(), random.random(), random.random(), 1.0)
-            counter = 0
-        else:
-            counter += 1
-
+        case = 2
+        match case :
+            case 1:
+                GL.glPointSize(10.0);
+                GL.glDrawArrays(GL.GL_POINTS, 0, 3);
+                GL.glDrawArrays(GL.GL_LINE_LOOP, 0, 3);
+            case 2:
+                GL.glDrawArrays(GL.GL_TRIANGLES, 0, 3);
         # changement de buffer d'affichage pour éviter un effet de scintillement
         glfw.swap_buffers(window)
         # gestion des évènements
