@@ -5,6 +5,10 @@ import OpenGL.GL as GL
 import glfw
 import random
 import numpy as np
+import time
+
+translatex = 0
+translatey = 0
 
 def init_window():
     # initialisation de la librairie glfw
@@ -30,7 +34,10 @@ def init_context(window):
     # choix de la couleur de fond
     GL.glClearColor(0.5, 0.6, 0.9, 1.0)
     print(f"OpenGL: {GL.glGetString(GL.GL_VERSION).decode('ascii')}")
-
+    #GL.glViewport(0,0,800,800)
+    rect = (GL.GLint * 4)()
+    GL.glGetIntegerv(GL.GL_VIEWPORT, rect)
+    print(rect[2])
 def init_program():
     current_program = create_program_from_file('shader.vert','shader.frag')
     GL.glUseProgram(current_program)
@@ -55,33 +62,50 @@ def init_data():
     # Indique comment le buffer courant (dernier vbo "binde ́")
     # est utilise ́ pour les positions des sommets
     GL.glVertexAttribPointer(0, 3, GL.GL_FLOAT, GL.GL_FALSE, 0, None)
-    pass
+
+    prog = GL.glGetIntegerv(GL.GL_CURRENT_PROGRAM)
+    loc = GL.glGetUniformLocation(prog, "translation")
+    if loc == -1:
+        print("Pas de variable uniforme : translation")
+    GL.glUniform4f(loc, -1, -0.5, 0, 0)
 
 def run(window):
+    global translatex
+    global translatey
     # boucle d'affichage
-    last_time = glfw.get_time()
-    counter = 0
     while not glfw.window_should_close(window):
         # nettoyage de la fenêtre : fond et profondeur
         GL.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT)
         #  l'affichage se fera ici
-        case = 2
-        match case :
-            case 1:
-                GL.glPointSize(10.0);
-                GL.glDrawArrays(GL.GL_POINTS, 0, 3);
-                GL.glDrawArrays(GL.GL_LINE_LOOP, 0, 3);
-            case 2:
-                GL.glDrawArrays(GL.GL_TRIANGLES, 0, 3);
+        GL.glDrawArrays(GL.GL_TRIANGLES, 0, 3);
+
+        prog = GL.glGetIntegerv(GL.GL_CURRENT_PROGRAM)
+        loc = GL.glGetUniformLocation(prog, "translation")
+        if loc == -1:
+            print("Pas de variable uniforme : translation")
+        GL.glUniform4f(loc, translatex, translatey, 0, 0)
+
         # changement de buffer d'affichage pour éviter un effet de scintillement
         glfw.swap_buffers(window)
         # gestion des évènements
         glfw.poll_events()
 
 def key_callback(win, key, scancode, action, mods):
+    global translatex
+    global translatey
     # sortie du programme si appui sur la touche 'echap'
     if key == glfw.KEY_ESCAPE and action == glfw.PRESS:
         glfw.set_window_should_close(win, glfw.TRUE)
+
+    if key == glfw.KEY_DOWN:
+        translatey -= 0.015
+    if key == glfw.KEY_UP:
+        translatey += 0.015
+    if key == glfw.KEY_RIGHT:
+        translatex += 0.015
+    if key == glfw.KEY_LEFT:
+        translatex -= 0.015
+
 
 
 def compile_shader(shader_content, shader_type):

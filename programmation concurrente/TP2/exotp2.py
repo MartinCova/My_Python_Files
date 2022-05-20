@@ -96,10 +96,10 @@ sys.exit(0)
 "-----------------------------------------"
 "Exercice 7"
 
-N = 2
+"""N = 2
 for i in range(N):
     os.fork()
     os.fork()
 print("Bonjour")
-sys.exit(0)
+sys.exit(0)"""
 
