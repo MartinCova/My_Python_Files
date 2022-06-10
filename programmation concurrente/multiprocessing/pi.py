@@ -1,6 +1,5 @@
 import ctypes
 import random, time
-import os
 import multiprocessing as mp
 
 # calculer le nbr de hits dans un cercle unitaire (utilisé par les différentes méthodes)
