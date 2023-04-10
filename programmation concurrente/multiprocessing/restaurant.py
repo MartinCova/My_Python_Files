@@ -2,9 +2,7 @@ import array
 import multiprocessing as mp
 import random
 import time
-import ctypes
 import curses
-import signal, sys
 
 
 def client(liste_commande, lock, taille_tampon):
@@ -113,22 +111,6 @@ def major(liste_commande, commande_perso_serveur, en_preparation, commande_pret,
         lock.release()
         stdscr.refresh()
 
-        # while True:
-        #     lock.acquire()
-        #     # print(commande_cuisine)
-        #     print(en_preparation)
-        #     lock.release()
-        #     time.sleep(2)
-    #
-        # if stop_affi.value == True:
-        #     # pour arreter le module:
-        #     curses.nocbreak()
-        #     stdscr.keypad(False)
-        #     stdscr.clear()
-        #     curses.echo()
-        #     curses.endwin()
-        #     pass
-
 
 if __name__ == "__main__":
     # initialisation du verrou
@@ -137,8 +119,6 @@ if __name__ == "__main__":
 
     # initialisation du process client
     taille_tampon = 50
-    lst_id_client = array.array('i', [0 for i in range(taille_tampon)])
-    lst_menu_client = array.array('u', ['A' for i in range(taille_tampon)])
     liste_commande = manager.list()
 
     # initialisation des process serveurs

@@ -59,7 +59,7 @@ def en_rouge() : print(CL_RED,end='') # Un exemple !
 
 #-------------------------------------------------------
 # La tache d'un cheval
-def un_cheval(ma_ligne : int, keep_running,pos,first,lock) : # ma_ligne commence e 0
+def un_cheval(ma_ligne : int, keep_running,pos,first,lock, LONGEUR_COURSE, poule, compte, lyst_colors) : # ma_ligne commence e 0
     col=1
     anim = 0
     while col < LONGEUR_COURSE and keep_running.value :
@@ -114,7 +114,7 @@ def un_cheval(ma_ligne : int, keep_running,pos,first,lock) : # ma_ligne commence
         col+=1
         anim = 1 + anim%4
         try : # En cas d'interruption
-            time.sleep(0.1 * random.randint(1,5))
+            time.sleep(0.1 * random.randint(1, 5))
         finally :
             pass
     for i in range(Nb_process):
@@ -122,7 +122,7 @@ def un_cheval(ma_ligne : int, keep_running,pos,first,lock) : # ma_ligne commence
             first[i] = chr(ord('A')+ma_ligne)
             return
 
-def arbitre(ma_ligne : int, keep_running,pos,first,pari,lock) :
+def arbitre(ma_ligne : int, keep_running,pos,first,pari,lock, LONGEUR_COURSE, poule) :
     col=1
     while col < LONGEUR_COURSE and keep_running.value :
         lock.acquire()
@@ -186,7 +186,7 @@ def prise_en_compte_signaux(signum, frame) :
 
     for i in range(Nb_process):
         mes_process[i].terminate()
-    bande_son_process.terminate()
+    # bande_son_process.terminate()
     move_to(Nb_process*compte+1, 1)
     curseur_visible()
     en_couleur(CL_WHITE)
@@ -217,19 +217,21 @@ if __name__ == "__main__" :
     LONGEUR_COURSE = 130 # Tout le monde aura la même copie (donc no need to have a 'value')
 
     keep_running=mp.Value(ctypes.c_bool, True)
-    first=mp.Array(ctypes.c_wchar_p, [""]*Nb_process)
-    pos=mp.Array(ctypes.c_int, [0]*Nb_process)
+    first= mp.Array(ctypes.c_wchar_p, [""]*Nb_process)
+    pos= mp.Array(ctypes.c_int, [0]*Nb_process)
     mes_process = [0 for i in range(Nb_process+1)]
 
-    signal.signal(signal.SIGINT , prise_en_compte_signaux)
-    signal.signal(signal.SIGQUIT , prise_en_compte_signaux)
+    # signal.signal(signal.SIGINT , prise_en_compte_signaux)
+    # signal.signal(signal.SIGQUIT , prise_en_compte_signaux)
 
     effacer_ecran()
     curseur_invisible()
     lock = mp.Lock()
     for i in range(Nb_process):  # Créé Nb_process  processus
-        mes_process[i] = mp.Process(target=un_cheval, args= (i,keep_running,pos,first,lock))
-    mes_process[Nb_process] = mp.Process(target=arbitre, args= (Nb_process+6,keep_running,pos,first,pari,lock))
+        mes_process[i] = mp.Process(target=un_cheval, args= (i, keep_running, pos, first, lock, LONGEUR_COURSE, poule,
+                                                             compte, lyst_colors))
+    mes_process[Nb_process] = mp.Process(target=arbitre, args= (Nb_process+6, keep_running, pos, first, pari, lock,
+                                                                LONGEUR_COURSE, poule))
 
     move_to(Nb_process*compte+10, 1)
     print("tous lances, Controle-C pour tout arrêter")
@@ -241,5 +243,5 @@ if __name__ == "__main__" :
     mes_process[Nb_process].join()
     move_to(Nb_process*compte+12, 1)
     curseur_visible()
-    bande_son_process.terminate()
+    # bande_son_process.terminate()
     print("Fini")
